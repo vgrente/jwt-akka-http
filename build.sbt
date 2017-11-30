@@ -43,11 +43,11 @@ lazy val root = (project in file(".")).
     libraryDependencies ++= {
       val akkaHttpV   = "10.0.10"
       val scalaTestV  = "3.0.4"
-      val slickV      = "3.2.1"
       Seq(
         "com.typesafe.akka"    %% "akka-http"                 % akkaHttpV,
         "com.typesafe.akka"    %% "akka-http-testkit"         % akkaHttpV,
         "org.scalatest"        %% "scalatest"                 % scalaTestV % "it,test",
+        "com.pauldijou"        %% "jwt-core"                  % "0.14.1",
         "com.github.fommil"    %% "spray-json-shapeless"      % "1.3.0",
         "org.slf4j"            %  "slf4j-nop"                 % "1.7.21",
       )
