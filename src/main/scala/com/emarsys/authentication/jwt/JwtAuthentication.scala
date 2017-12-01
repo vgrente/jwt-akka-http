@@ -4,7 +4,9 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server._
 import akka.http.scaladsl.unmarshalling.{FromStringUnmarshaller, Unmarshaller}
-import pdi.jwt.{Jwt, JwtAlgorithm}
+import pdi.jwt.{Jwt, JwtAlgorithm, JwtClaim}
+import spray.json.JsonWriter
+import spray.json._
 
 import scala.util.{Failure, Success, Try}
 
@@ -16,7 +18,11 @@ trait JwtAuthentication {
   protected val encodingAlgorithm: JwtAlgorithm.HS256.type = JwtAlgorithm.HS256
   private val acceptedAlgorithms = Seq(encodingAlgorithm)
 
-  def as[UserData](implicit um: FromStringUnmarshaller[UserData]): FromStringUnmarshaller[UserData] = um
+  def generateToken[UserData: JsonWriter](userData: UserData): String = {
+    val userDataJson = userData.toJson.toString
+    val claim = JwtClaim(userDataJson).expiresIn(jwtConfig.expirationTime.getSeconds)
+    Jwt.encode(claim, jwtConfig.secret, encodingAlgorithm)
+  }
 
   def jwtAuthenticate[UserData](um: FromStringUnmarshaller[UserData]): Directive1[UserData] = for {
     authorization <- optionalHeaderValueByName("Authorization").map(stripBearerPrefix)
@@ -25,6 +31,7 @@ trait JwtAuthentication {
     userData <- convertToUserData(decodedToken, um)
   } yield userData
 
+  def as[UserData](implicit um: FromStringUnmarshaller[UserData]): FromStringUnmarshaller[UserData] = um
 
   private def stripBearerPrefix(token: Option[String]): Option[String] = {
     token.map(_.stripPrefix(tokenPrefix))
