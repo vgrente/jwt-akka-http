@@ -5,8 +5,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server._
 import akka.http.scaladsl.unmarshalling.{FromStringUnmarshaller, Unmarshaller}
 import pdi.jwt.{Jwt, JwtAlgorithm, JwtClaim}
-import spray.json.JsonWriter
-import spray.json._
+import spray.json.{JsonWriter, _}
 
 import scala.util.{Failure, Success, Try}
 
@@ -25,8 +24,8 @@ trait JwtAuthentication {
   }
 
   def jwtAuthenticate[UserData](um: FromStringUnmarshaller[UserData]): Directive1[UserData] = for {
-    authorization <- optionalHeaderValueByName("Authorization").map(stripBearerPrefix)
-    authorizedToken <- checkAuthorization(authorization)
+    jwtToken <- optionalHeaderValueByName("Authorization").map(stripBearerPrefix)
+    authorizedToken <- checkAuthorization(jwtToken)
     decodedToken <- decodeToken(authorizedToken)
     userData <- convertToUserData(decodedToken, um)
   } yield userData
