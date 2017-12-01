@@ -13,7 +13,7 @@ lazy val root = (project in file(".")).
   settings(Defaults.itSettings: _*).
   settings(
     name    := "jwt-authentication",
-    version := "0.0.1",
+    version := "0.1.0",
 
     scalacOptions ++= Seq(
       "-deprecation",
@@ -46,10 +46,11 @@ lazy val root = (project in file(".")).
       Seq(
         "com.typesafe.akka"    %% "akka-http"                 % akkaHttpV,
         "com.typesafe.akka"    %% "akka-http-testkit"         % akkaHttpV,
+        "com.typesafe.akka"    %% "akka-http-spray-json"      % akkaHttpV,
         "org.scalatest"        %% "scalatest"                 % scalaTestV % "it,test",
         "com.pauldijou"        %% "jwt-core"                  % "0.14.1",
         "com.github.fommil"    %% "spray-json-shapeless"      % "1.3.0",
-        "org.slf4j"            %  "slf4j-nop"                 % "1.7.21",
+        "org.slf4j"            %  "slf4j-nop"                 % "1.7.21"
       )
     }
   )
