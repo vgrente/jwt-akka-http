@@ -1,4 +1,4 @@
-package com.emarsys.authentication.jwt
+package com.emarsys.jwt.akka.http
 
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._

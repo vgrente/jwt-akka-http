@@ -1,4 +1,4 @@
-package com.emarsys.authentication.jwt
+package com.emarsys.jwt.akka.http
 
 import java.time.Duration
 

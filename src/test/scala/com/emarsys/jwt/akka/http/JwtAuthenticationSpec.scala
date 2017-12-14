@@ -1,4 +1,4 @@
-package com.emarsys.authentication.jwt
+package com.emarsys.jwt.akka.http
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.StatusCodes
