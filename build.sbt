@@ -2,7 +2,7 @@ val scalaV = "2.12.4"
 
 name         := "jwt-akka-http"
 organization := "com.emarsys"
-version      := "0.1.1"
+version      := "1.0.0"
 
 scalaVersion := scalaV
 scalacOptions ++= Seq(
