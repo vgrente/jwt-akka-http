@@ -1,6 +1,6 @@
 package com.emarsys.jwt.akka.http
 
-import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.model.headers.HttpChallenge
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server._
 import akka.http.scaladsl.unmarshalling.{FromStringUnmarshaller, Unmarshaller}
@@ -38,7 +38,8 @@ trait JwtAuthentication {
 
   private def checkAuthorization[UserData](a: Option[String]): Directive1[String] = a match {
     case Some(jwt) if isValid(jwt) => provide(jwt)
-    case _ => complete(StatusCodes.Unauthorized)
+    case None => reject(AuthenticationFailedRejection(AuthenticationFailedRejection.CredentialsMissing, HttpChallenge("Basic", "JWT")))
+    case _ => reject(AuthenticationFailedRejection(AuthenticationFailedRejection.CredentialsRejected, HttpChallenge("Basic", "JWT")))
   }
 
   private def isValid(jwt: String) = {

@@ -3,6 +3,7 @@ package com.emarsys.jwt.akka.http
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.model.headers.{Authorization, OAuth2BearerToken}
+import akka.http.scaladsl.server.AuthenticationFailedRejection
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import com.typesafe.config.{Config, ConfigFactory}
@@ -41,58 +42,63 @@ class JwtAuthenticationSpec
     }
 
     "using no jwt token" should {
-      "return Unauthorized" in {
+      "reject with missing credentials" in {
         Get("/") ~> jwtAuthenticate(as[ClaimData]) { _ =>
           complete(StatusCodes.OK)
         } ~> check {
-          status shouldBe StatusCodes.Unauthorized
+          rejection shouldBe an[AuthenticationFailedRejection]
+          rejection.asInstanceOf[AuthenticationFailedRejection].cause shouldBe AuthenticationFailedRejection.CredentialsMissing
         }
       }
     }
 
     "using an invalid jwt token" should {
-      "return Unauthorized" in {
+      "reject with wrong credentials" in {
         val invalidToken = "invalid token"
         Get("/") ~> withJwtToken(invalidToken) ~> jwtAuthenticate(as[ClaimData]) { _ =>
           complete(StatusCodes.OK)
         } ~> check {
-          status shouldBe StatusCodes.Unauthorized
+          rejection shouldBe an[AuthenticationFailedRejection]
+          rejection.asInstanceOf[AuthenticationFailedRejection].cause shouldBe AuthenticationFailedRejection.CredentialsRejected
         }
       }
     }
 
     "using a jwt token with invalid secret" should {
-      "return Unauthorized" in {
+      "reject with wrong credentials" in {
         val claim = defaultClaim.expiresIn(200)
         val invalidToken = encodeToken(claim, "invalid secret")
         Get("/") ~> withJwtToken(invalidToken) ~> jwtAuthenticate(as[ClaimData]) { _ =>
           complete(StatusCodes.OK)
         } ~> check {
-          status shouldBe StatusCodes.Unauthorized
+          rejection shouldBe an[AuthenticationFailedRejection]
+          rejection.asInstanceOf[AuthenticationFailedRejection].cause shouldBe AuthenticationFailedRejection.CredentialsRejected
         }
       }
     }
 
     "using a jwt token that is not yet valid" should {
-      "return Unauthorized" in {
+      "reject with wrong credentials" in {
         val claim = defaultClaim.startsIn(200).expiresIn(400)
         val invalidToken = encodeToken(claim, jwtConfig.secret)
         Get("/") ~> withJwtToken(invalidToken) ~> jwtAuthenticate(as[ClaimData]) { _ =>
           complete(StatusCodes.OK)
         } ~> check {
-          status shouldBe StatusCodes.Unauthorized
+          rejection shouldBe an[AuthenticationFailedRejection]
+          rejection.asInstanceOf[AuthenticationFailedRejection].cause shouldBe AuthenticationFailedRejection.CredentialsRejected
         }
       }
     }
 
     "using an expired jwt token" should {
-      "return Unauthorized" in {
+      "reject with wrong credentials" in {
         val claim = defaultClaim.expiresNow
         val expiredToken = encodeToken(claim, jwtConfig.secret)
         Get("/") ~> withJwtToken(expiredToken) ~> jwtAuthenticate(as[ClaimData]) { _ =>
           complete(StatusCodes.OK)
         } ~> check {
-          status shouldBe StatusCodes.Unauthorized
+          rejection shouldBe an[AuthenticationFailedRejection]
+          rejection.asInstanceOf[AuthenticationFailedRejection].cause shouldBe AuthenticationFailedRejection.CredentialsRejected
         }
       }
     }
