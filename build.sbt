@@ -41,7 +41,7 @@ inThisBuild(List(
     Developer("tg44", "Gergo Torcsvari", "gergo.torcsvari@emarsys.com", url("https://github.com/tg44")),
     Developer("miklos-martin", "Miklos Martin", "miklos.martin@gmail.com", url("https://github.com/miklos-martin"))
   ),
-  scmInfo := Some(ScmInfo("https://github.com/emartech/jwt-akka-http", "scm:git:git@github.com:emartech/jwt-akka-http.git")),
+  scmInfo := Some(ScmInfo(url("https://github.com/emartech/jwt-akka-http"), "scm:git:git@github.com:emartech/jwt-akka-http.git")),
 
   // These are the sbt-release-early settings to configure
   pgpPublicRing := file("./travis/local.pubring.asc"),
