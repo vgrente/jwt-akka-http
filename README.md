@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/emartech/jwt-akka-http.svg?branch=master)](https://travis-ci.org/emartech/jwt-akka-http)
+
 # jwt-akka-http
 This is a scala library for akka-http that indroduces a directive to make JWT authentication easier.
 
