@@ -43,23 +43,8 @@ inThisBuild(List(
   ),
   scmInfo := Some(ScmInfo(url("https://github.com/emartech/jwt-akka-http"), "scm:git:git@github.com:emartech/jwt-akka-http.git")),
 
+  // These are the sbt-release-early settings to configure
   pgpPublicRing := file("./travis/local.pubring.asc"),
   pgpSecretRing := file("./travis/local.secring.asc"),
-  releaseEarlyWith := SonatypePublisher,
-
-  publishTo := {
-    val sonatype = "https://oss.sonatype.org/"
-    val profileM = sonatypeStagingRepositoryProfile.?.value
-
-    if (isSnapshot.value) {
-      Some(Opts.resolver.sonatypeSnapshots)
-    } else {
-      val staged = profileM.map { stagingRepoProfile =>
-        "releases" at sonatype +
-          "service/local/staging/deployByRepositoryId/" +
-          stagingRepoProfile.repositoryId
-      }
-      staged.orElse(Some(Opts.resolver.sonatypeStaging))
-    }
-  }
+  releaseEarlyWith := SonatypePublisher
 ))
