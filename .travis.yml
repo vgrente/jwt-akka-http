@@ -2,26 +2,29 @@ sudo: false
 language: scala
 scala:
 - 2.12.4
-script:
-- sbt ++$TRAVIS_SCALA_VERSION test
 jdk:
 - oraclejdk8
 before_install:
-- if [ $TRAVIS_PULL_REQUEST = 'false' ]; then
-    openssl aes-256-cbc -K $encrypted_8e3190b71da6_key -iv $encrypted_8e3190b71da6_iv -in travis/secrets.tar.enc -out travis/secrets.tar -d;
-    tar xv -C travis -f travis/secrets.tar;
-  fi
-after_success:
-- if [ $TRAVIS_PULL_REQUEST = 'false' ]; then sbt ++$TRAVIS_SCALA_VERSION releaseEarly; fi
-env:
-  global:
-  - secure: JeVWRYJ/Gg3bM0ZHi9ZsJsqJPLGTT10UsvXGtzDLofJvnPD6Sq9rq/HhLBcR7LxPrRjDbeFOtihovmMzmSeNIRbYlpWGZj2RhcD+lbJ/oIGFjN3uAxTX4jPHndZozAPmkAyUAbLI+iRwPxBDRxw7THqRJxa9zrKK6hpw7F9aJeFFrvMw8lpq+y5maeoWWKjWTr4A9hz2j3LmMnWBR4fablinOaAx2iIVp5W/wsIgIL4hSK+WJLcoiKo9p7/tZsi/sI/s1sgwmlnqygdVCyzptTJhfGyOlZ6ZQWIGIsbCAgAfpGJpQyvhk3Ph3ej63B4Ao1S/Fn3Rj8WOCuh3VYBFWDxj/i6php02Er2rMHsRnQuYsRmchfgcuJvN/tDdJ8B7y3ACbrq39V0VEfk5B454T10Xkr5FMM5OyBvr56DkBb3T7PosfTLvthssu9Q2RW8LRcf3G/pZxDQLft4VBmclYSMYF1XyB+4G981m9bOIsDV+rA3Ye74VC42t48AI0H0awiq1Cpxj2bV7c2s/x9FJ/+vyvDSluPX47pwsKHOUPu4XkdieparTxlE8BBP8e3YLCq4nLA6FPx0IvnTTh4aHwSOrpBssL9nWQtLtsS+dMyOPf++A37O9jetv889aOPbVcLmTzKiGpejhqAI4XLsoDndddeAZCAPxgTPqtewRKBY=
-  - secure: dUJtRBxcYVBRubkh63zUd+vR1gDjB3IGTNN98fZbaIZLNyO6r+UeN/3eUvfefSYkYAXLpC0kZxqMCkV5nXeQUvtnrOW34Sd8w36hfDpIDLyoTeMq4jX0yKqtcUdB1TSbbYOPHHKTJB2ThIsHKynrv229IWTKtWDTuRbHzGfnxb0sWye1sbWz5rzUPIJXOVyCIx/eqpYDjPjpK/hA2bkgHFLTyADom7JuMpNYzT3mfn2SSfYW9bUsprYq8k4Ib6solf21mDvYrSN9fhS1XZbd1TqEAXLr+8vxicxgU9Q7t3L2sUKtzUjdgbFSfY1668rVCuLvVSPejGPPjJ54N9SgP/d2PbLaQMaVbs/+9M3pkVeF7+wIFGGaBngVZSKA0uRAXA7DJ5KxlUybUgwCPMr3fcDTPilQ8GcHliEc7Mv0bCKG/CXaQxhWmpc4i373stAFkPt5HaPcdxh10Vc2lDpVZieJkjcm5xR7gUH6kaYx/OQO9/ABTwjstDa6tuv8GDenZ2zUS5FeewCqKF1yIeJKtGULzGVjk3a0rhTjUKRU/kdBN/3jepfWOMvIggpL0RFsan2zgHIpd48P0GEsDPXUzQwBcbKg7dPsZHonzzhCWgSVA6FTbdhdvJ03Arm4zHYwGjwZ8y+NjV4q15ZvZaapnRryF+DW8vR3cypsy2X8T/E=
-  - secure: CsNVeUidQ+azXftPufRDzxKPapINQpjrJaWVdrjhhWpZfAP699J7EA5JUuQ+A3qL3IxLJDO0SijIIo80Z+W53UUXlFzn/exemLYLqzcGEcA4oPPJ8sXjmhsZJW1DAL9IlUxBNoqWwO8TnKWvJbhLlejEiVPweKIC9Sv5+I6yx4L+7aEpyUmWKuuNXNwoZrm5sItGjorNP5tBQWHVznFg6UF40h+eem85pwzHKnm1lsv5BvSV3yjPXskf3d7GI2Xk4eN9a+Wthv2cMZ21Rh6nZo8Kb5RfdZhxqiiGmNHnALn3qL0OzuhTyMmRkitvKsxgsYbJB3Ra20U1EctBsHBkcFEqUgf9ygycotjG3X784+0LTFXTL35eH+pyouv4rYBcxr8s16mbDqGFP5y390Fy6O6KM9/gzeeNlC9+eT1TZk3fncMghYJaA7RN7RYHHMs0CNtmoRSgLXnTOzEuAeTtu+eqmczf26z7AWFIp5tiqelE/v2yd+GhryQ4GmZ084PUU1LGPFsOCb9sTDLxhcQHT/k2Qjhzb4t+huzf0KxGiPX2ezEzubTgCHVBSP41Fw8lAfnn8EIIo4IS+4yG+GUjYvW3E7EIoQ0709ulpcTOkuiKpzwoc0IhlnWEOWY2REr2BOIeKPbsSXDdPX0F7l4wbhWVP9vIic3re+MqXS0HoV0=
+- git fetch --tags
+stages:
+- name: test
+- name: release
+  if: "((branch = master AND type = push) OR (tag IS present)) AND NOT fork"
+jobs:
+  include:
+  - stage: test
+    script: sbt test
+  - stage: release
+    script: sbt ci-release
 cache:
   directories:
-    - $HOME/.ivy2/cache
-    - $HOME/.sbt
+  - "$HOME/.ivy2/cache"
+  - "$HOME/.sbt"
 before_cache:
-  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -print -delete
-  - find $HOME/.sbt        -name "*.lock"               -print -delete
+- find $HOME/.ivy2/cache -name "ivydata-*.properties" -print -delete
+- find $HOME/.sbt        -name "*.lock"               -print -delete
+env:
+  global:
+  - secure: YViDdb5L8s1RcouJPXPcNDJ596kxEnnWnbsQrQbZpeLsPpzKSlx5okzaANFGLnAQz5WOJwuqmmnVqcYIur8ZiecjYkEe4ZcpQef+QEJPz01aWeo9IH05pl6I2uWjLmTnb2mBuI03u4GeLSYX05rd659v9UNokBZtDbwdD8FMPbZq0tCTwVDcZRAK2A+BJO6eKG1YoMOnVEI32krSHw6nLsDLExOtzNnJ4BRbVM5H43lJsRZzXkk8TJZWsJDeLcYPDrGMHD+v5rNprQdhXUQl+FcawR6Tw8fybbVlwvvKw7k9IHBN48QDNbouVy75T7kLp59O4wBQOwpITDeIJhfna2cg+guQvLJ+4FuvTAQ3vyUK3dvf3iF7Njtm+WjQCaqLUf0fRBkFei5pK/JrhIZU41EcaOLHXANBy6GMYQganX3ocRogU3uTLvMKSG4AriZIa0nOFM44gK3x1a4I2aJYrBK6nKyRtKOuDpY2B9enQunCa4y8EFqKN9OAOYc0x+aeGxprxiMKYAuE0qNtp8S9dhyC1Pt36hab8WHWTQLKTm/nDzNRWF846mcvXz8MnanaNEW5TnG6WbMNIb68hfdhnLv6lmXf5kxReKsrrFggIePdqrFBqFuv2UhXN9Eg6hjT0tYokh3OcGyn6YgjhV8iI2q33USGZRPeE3o7kkUxGyo=
+  - secure: TBR5tt4+wyHixLOW7E65RgHWMMA8H76iwuQVLlMDaenXME/tTcKKnJ5ee0NmFBGDEwm0i+JNzKLaCgsvmBFIk6PYWmgjkwhnEXdjuC9neSW2gCAnWZySLpg2RjFlRtakabtQTCRaU0OXt8GIzrkuJuuHrNb8NJp+QhO6AZvcEK3Uq3SoEFu9uHrX4AO3y2Uo1xOzqvpYbSyimaAMY7as+4eWWTUwlbnFdpKh3uLmdIqbpWwi6hvSGdUx8IVFty4ObJekfBoBp5T+4wQpBucvKYzOdUDCeCbFKG6IsbOenf2JaxdNjaZGfmu+/jtihDNgSvrKJT4/uUlSUtbWUHuCeEQ1TQm3VAeV4JQ5FpWTw0F3E5qGVjzLPgPXX2pRZ336TRLBiZgjIUfw6gsOh02RdZ3cTEy/PFC8B+8as6kTVpC4j/wD0zqaFkCYFMrwjp1eRI3e+tjSFXq+IpjcI6x9RslPNAIdH74qgxBmBaPRw/U3CW5ICH2yAVIbibwQTetUgWGQaHUB98/uUHqF0DHq7qSucRI4NjTNZUfvmft6AOStNbolh1UfC4sJ1HKhkxdKGmGAm1NKXXLFgEJ4moIgO6lN4ykBPGdikvJz9SI+MMv0yzLZr4aRqjfByXi/umtzdD0xjiNmq9a/P4XcIvaVFo7u/b1Y78CMoZILIMaK27c=
+  - secure: H3vF6GQdy6CzaDCMlKKJdoqA6JLi5VBvaVKz7fusjq8iijm9+Zo9s+AH8xwNEbAv0KRs7OSFp3U8Zi+GEv/2lWUjoL2keJhDhmrZ2QSfF9PDim9RNnSiHTCT3ozvXTNu+CEhZd4wa88RSLlZ+H3FtgTHlqjlEpK79/SvbuUt1B2CvKm2OESgA2ZYscMZb8+HN7nrroJM0jz3v1lrLEf/OtNpvCXvm06U3GnrGJhfq3hHaBJ7k/Pshbr/Uu5rqTf7BPdUo3HClqrnKoTyVWChdITVCqWsjla33lUEmP/q6XQGeLzDDJ3M1mfToP3KFGi8jWxcXqfjM4oz+iYCDhuWJ1ZDqdmD8K46sbySxoqW2GG5GY3texetmm0RErcuhqFTq+gZbkuvRfDGh475efnfv3tHoaHrCRWjcSw9ObrmWFfrBgA5sZhYE5q7lD72btlc6xEwHwpXR9T7tZyxK9Axw85xDQWdUhAWpAkHk+HzDNs6B3PK5ecUuBJ826+XaZYq+FchnQ2OuAncdfCrEYGjHQ6QZ+v6kW4wzkw+6V7cLMbTMrNtmknw03RzVHdji66oHr8+vXCSbw5ACWhVrAIzGaU7KyQxL2X7PRqOofRRYqEJTNL4oDeyKeQiJwjnJJyqHT7JQYNJFSAQN5x5OBysPU35bMQoZuI9LkqZKaEnqII=
