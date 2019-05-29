@@ -7,7 +7,15 @@ This is a scala library for akka-http that indroduces a directive to make JWT au
 
 Add the following to `build.sbt`:
 ```scala
-libraryDependencies += "com.emarsys" %% "jwt-akka-http" % "1.0.1"
+libraryDependencies += "com.emarsys" %% "jwt-akka-http" % "x.y.z"
+```
+The latest released version is on the maven badge at the top of this document.
+
+If you need some functionality that is not released yet, you can depend on the snapshot release. Every push to master will be released as a snapshot, you can find the exact version in the [build output] under the `Release` stage.
+
+To depend on a snapshot, include the following in your `build.sbt`
+```scala
+resolvers += Resolver.sonatypeRepo("snapshots")
 ```
 
 In your code import and mixin the `com.emarsys.authentication.jwt.JwtAuthentication` trait and override its `jwtConfig` member with a valid configuration.
@@ -56,3 +64,6 @@ Authenticating a token and the custom contents:
 ## License
 
 See the attached [LICENSE](LICENSE) file.
+
+
+[build output]: https://travis-ci.org/emartech/jwt-akka-http?branch=master
