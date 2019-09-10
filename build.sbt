@@ -1,4 +1,4 @@
-val scalaV = "2.12.4"
+val scalaV = "2.12.9"
 
 name         := "jwt-akka-http"
 organization := "com.emarsys"
@@ -18,11 +18,14 @@ scalacOptions ++= Seq(
 )
 
 libraryDependencies ++= {
-  val akkaHttpV  = "10.0.10"
+  val akkaV  = "2.5.25"
+  val akkaHttpV  = "10.1.9"
   val scalaTestV = "3.0.4"
   Seq(
     "com.typesafe.akka" %% "akka-http"            % akkaHttpV,
     "com.typesafe.akka" %% "akka-http-testkit"    % akkaHttpV % "test",
+    "com.typesafe.akka" %% "akka-stream"          % akkaV,
+    "com.typesafe.akka" %% "akka-stream-testkit"  % akkaV % Test,
     "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpV,
     "org.scalatest"     %% "scalatest"            % scalaTestV % "test",
     "com.pauldijou"     %% "jwt-core"             % "0.14.1",
