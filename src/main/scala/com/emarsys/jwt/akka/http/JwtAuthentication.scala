@@ -18,6 +18,7 @@ trait JwtAuthentication {
   private val acceptedAlgorithms = Seq(encodingAlgorithm)
 
   def generateToken[UserData: JsonWriter](userData: UserData): String = {
+    implicit val clock = java.time.Clock.systemUTC()
     val userDataJson = userData.toJson.toString
     val claim = JwtClaim(userDataJson).expiresIn(jwtConfig.expirationTime.getSeconds)
     Jwt.encode(claim, jwtConfig.secret, encodingAlgorithm)
@@ -51,7 +52,7 @@ trait JwtAuthentication {
   }
 
   private def decodeToken[UserData](jwt: String): Directive1[String] = {
-    provide(Jwt.decode(jwt, jwtConfig.secret, acceptedAlgorithms).get)
+    provide(Jwt.decode(jwt, jwtConfig.secret, acceptedAlgorithms).get.content)
   }
 
   private def convertToUserData[UserData](decodedToken: String, um: FromStringUnmarshaller[UserData]): Directive1[UserData] = {

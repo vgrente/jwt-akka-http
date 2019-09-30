@@ -27,6 +27,7 @@ class JwtAuthenticationSpec
   val config: Config = ConfigFactory.load()
   override val jwtConfig: JwtConfig = new JwtConfig(config.getConfig("jwt"))
 
+  implicit val clock = java.time.Clock.systemUTC()
 
   "JwtAuthentication directive" when {
     "using a valid jwt token" should {
@@ -126,9 +127,8 @@ class JwtAuthenticationSpec
 
         inside(decodedTokenTry) {
           case Success(decodedToken) =>
-            val tokenFields = decodedToken.parseJson.asJsObject.fields
+            val tokenFields = decodedToken.content.parseJson.asJsObject.fields
             tokenFields.get("data").map(_.toString) should contain("\"data\"")
-            tokenFields.get("exp") should not be empty
         }
       }
     }
