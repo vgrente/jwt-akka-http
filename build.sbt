@@ -1,9 +1,7 @@
-val scalaV = "2.12.10"
-
 name         := "jwt-akka-http"
 organization := "com.emarsys"
+crossScalaVersions := List("2.13.1", "2.12.10")
 
-scalaVersion := scalaV
 scalacOptions ++= Seq(
   "-deprecation",
   "-encoding", "UTF-8",

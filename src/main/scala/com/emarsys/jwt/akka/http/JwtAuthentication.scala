@@ -65,11 +65,11 @@ trait JwtAuthentication {
 
   private def handleError[UserData](unmarshalledUserData: Try[UserData]): Directive1[UserData] = unmarshalledUserData match {
     case Success(value) => provide(value)
-    case Failure(RejectionError(r)) ⇒ reject(r)
-    case Failure(Unmarshaller.NoContentException) ⇒ reject(RequestEntityExpectedRejection)
-    case Failure(e: Unmarshaller.UnsupportedContentTypeException) ⇒ reject(UnsupportedRequestContentTypeRejection(e.supported, e.actualContentType))
-    case Failure(x: IllegalArgumentException) ⇒ reject(ValidationRejection(blankIfNull(x.getMessage), Some(x)))
-    case Failure(x) ⇒ reject(MalformedRequestContentRejection(blankIfNull(x.getMessage), x))
+    case Failure(RejectionError(r)) => reject(r)
+    case Failure(Unmarshaller.NoContentException) => reject(RequestEntityExpectedRejection)
+    case Failure(e: Unmarshaller.UnsupportedContentTypeException) => reject(UnsupportedRequestContentTypeRejection(e.supported, e.actualContentType))
+    case Failure(x: IllegalArgumentException) => reject(ValidationRejection(blankIfNull(x.getMessage), Some(x)))
+    case Failure(x) => reject(MalformedRequestContentRejection(blankIfNull(x.getMessage), x))
   }
 
   private def blankIfNull(str: String): String = if(str == null) "" else str
