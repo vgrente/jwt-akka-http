@@ -28,10 +28,12 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-stream-testkit"  % akkaV % Test,
     "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpV,
     "org.scalatest"     %% "scalatest"            % scalaTestV % "test",
-    "com.pauldijou"     %% "jwt-core"             % "0.14.1",
+    "com.pauldijou"     %% "jwt-core"             % "0.19.0",
     "com.github.fommil" %% "spray-json-shapeless" % "1.4.0"
   )
 }
+
+Global / onChangedBuildSource := ReloadOnSourceChanges
 
 inThisBuild(List(
   licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
