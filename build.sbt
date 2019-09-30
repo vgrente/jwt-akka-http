@@ -1,4 +1,4 @@
-val scalaV = "2.12.9"
+val scalaV = "2.12.10"
 
 name         := "jwt-akka-http"
 organization := "com.emarsys"
@@ -19,8 +19,8 @@ scalacOptions ++= Seq(
 
 libraryDependencies ++= {
   val akkaV  = "2.5.25"
-  val akkaHttpV  = "10.1.9"
-  val scalaTestV = "3.0.4"
+  val akkaHttpV  = "10.1.10"
+  val scalaTestV = "3.0.8"
   Seq(
     "com.typesafe.akka" %% "akka-http"            % akkaHttpV,
     "com.typesafe.akka" %% "akka-http-testkit"    % akkaHttpV % "test",
@@ -33,8 +33,6 @@ libraryDependencies ++= {
   )
 }
 
-scalaVersion in ThisBuild := scalaV
-
 inThisBuild(List(
   licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
   homepage := Some(url("https://github.com/emartech/jwt-akka-http")),
@@ -43,6 +41,5 @@ inThisBuild(List(
     Developer("doczir", "Robert Doczi", "doczi.r@gmail.com", url("https://github.com/doczir")),
     Developer("tg44", "Gergo Torcsvari", "gergo.torcsvari@emarsys.com", url("https://github.com/tg44")),
     Developer("miklos-martin", "Miklos Martin", "miklos.martin@gmail.com", url("https://github.com/miklos-martin"))
-  ),
-  scmInfo := Some(ScmInfo(url("https://github.com/emartech/jwt-akka-http"), "scm:git:git@github.com:emartech/jwt-akka-http.git"))
+  )
 ))
