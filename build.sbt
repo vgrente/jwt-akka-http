@@ -28,8 +28,7 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-stream-testkit"  % akkaV % Test,
     "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpV,
     "org.scalatest"     %% "scalatest"            % scalaTestV % "test",
-    "com.pauldijou"     %% "jwt-core"             % "4.1.0",
-    "com.github.fommil" %% "spray-json-shapeless" % "1.4.0"
+    "com.pauldijou"     %% "jwt-core"             % "4.1.0"
   )
 }
 

@@ -5,7 +5,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server._
 import akka.http.scaladsl.unmarshalling.{FromStringUnmarshaller, Unmarshaller}
 import pdi.jwt.{Jwt, JwtAlgorithm, JwtClaim}
-import spray.json.{JsonWriter, _}
+import spray.json._
 
 import scala.util.{Failure, Success, Try}
 

@@ -7,7 +7,6 @@ import akka.http.scaladsl.server.AuthenticationFailedRejection
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import com.typesafe.config.{Config, ConfigFactory}
-import fommil.sjs.FamilyFormats._
 import org.scalatest.words.ShouldVerb
 import org.scalatest.{Inside, Matchers, WordSpec}
 import pdi.jwt.{Jwt, JwtClaim}
@@ -135,6 +134,8 @@ class JwtAuthenticationSpec
   }
 
   case class ClaimData(data: String)
+  import DefaultJsonProtocol._
+  implicit val claimFormat = jsonFormat1(ClaimData.apply)
 
   private val claimData = ClaimData("data")
 
