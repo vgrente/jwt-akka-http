@@ -1,6 +1,5 @@
-[![Build Status](https://travis-ci.org/emartech/jwt-akka-http.svg?branch=master)](https://travis-ci.org/emartech/jwt-akka-http) [![Maven Central](https://img.shields.io/maven-central/v/com.emarsys/jwt-akka-http_2.12.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.emarsys%22%20AND%20a:%22jwt-akka-http_2.12%22)
+# JWT Akka HTTP [![Build Status](https://github.com/emartech/jwt-akka-http/workflows/CI/badge.svg)](https://github.com/emartech/jwt-akka-http/actions?query=workflow%3ACI) [![Maven Central](https://img.shields.io/maven-central/v/com.emarsys/jwt-akka-http_2.13.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.emarsys%22%20AND%20a:%22jwt-akka-http_2.13%22)
 
-# jwt-akka-http
 This is a scala library for akka-http that indroduces a directive to make JWT authentication easier.
 
 ## Usage
