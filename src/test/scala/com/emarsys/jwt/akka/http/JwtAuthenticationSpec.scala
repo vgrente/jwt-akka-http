@@ -16,6 +16,8 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.verbs.ShouldVerb
 import org.scalatest.wordspec.AnyWordSpec
 
+import java.time.Clock
+
 class JwtAuthenticationSpec
     extends AnyWordSpec
     with Matchers
@@ -25,10 +27,22 @@ class JwtAuthenticationSpec
     with SprayJsonSupport
     with Inside {
 
+  implicit val claimFormat: RootJsonFormat[ClaimData] = new RootJsonFormat[ClaimData] {
+    override def write(obj: ClaimData): JsValue = JsObject("data" -> JsString(obj.data))
+
+    override def read(json: JsValue): ClaimData = json.asJsObject.getFields("data") match {
+      case Seq(data: JsString) => ClaimData(data.value)
+      case _ => deserializationError("Required `data` field of type `string` inside object")
+    }
+  }
+
   val config: Config = ConfigFactory.load()
   override val jwtConfig: JwtConfig = new JwtConfig(config.getConfig("jwt"))
 
-  implicit val clock = java.time.Clock.systemUTC()
+  implicit val clock: Clock = java.time.Clock.systemUTC()
+
+  private val claimData = ClaimData("data")
+  private val defaultClaim: JwtClaim = JwtClaim(claimData.toJson.toString)
 
   "JwtAuthentication directive" when {
     "using a valid jwt token" should {
@@ -136,12 +150,6 @@ class JwtAuthenticationSpec
   }
 
   case class ClaimData(data: String)
-  import DefaultJsonProtocol._
-  implicit val claimFormat = jsonFormat1(ClaimData.apply)
-
-  private val claimData = ClaimData("data")
-
-  private val defaultClaim: JwtClaim = JwtClaim(claimData.toJson.toString)
 
   private def encodeToken(claim: JwtClaim, secret: String) =
     Jwt.encode(claim, secret, encodingAlgorithm)

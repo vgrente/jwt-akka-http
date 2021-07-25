@@ -1,6 +1,6 @@
 name         := "jwt-akka-http"
 organization := "com.emarsys"
-crossScalaVersions := List("2.13.6", "2.12.14")
+crossScalaVersions := List("3.0.1", "2.13.6", "2.12.14")
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -10,21 +10,26 @@ scalacOptions ++= Seq(
   "-language:implicitConversions",
   "-language:postfixOps",
   "-language:higherKinds",
-  "-Ywarn-dead-code",
   "-Xfatal-warnings",
-  "-Xlint"
-)
+
+) ++ (CrossVersion.partialVersion(scalaVersion.value) match {
+   case Some((2, _)) => Seq(
+     "-Xlint",
+     "-Ywarn-dead-code"
+   )
+  case _ => Nil
+})
 
 libraryDependencies ++= {
   val akkaV  = "2.6.15"
   val akkaHttpV  = "10.2.4"
   val scalaTestV = "3.2.9"
   Seq(
-    "com.typesafe.akka" %% "akka-http"            % akkaHttpV,
-    "com.typesafe.akka" %% "akka-http-testkit"    % akkaHttpV % Test,
-    "com.typesafe.akka" %% "akka-stream"          % akkaV,
-    "com.typesafe.akka" %% "akka-stream-testkit"  % akkaV % Test,
-    "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpV,
+    ("com.typesafe.akka" %% "akka-http"            % akkaHttpV).cross(CrossVersion.for3Use2_13),
+    ("com.typesafe.akka" %% "akka-http-testkit"    % akkaHttpV % Test).cross(CrossVersion.for3Use2_13),
+    ("com.typesafe.akka" %% "akka-stream"          % akkaV).cross(CrossVersion.for3Use2_13),
+    ("com.typesafe.akka" %% "akka-stream-testkit"  % akkaV % Test).cross(CrossVersion.for3Use2_13),
+    ("com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpV).cross(CrossVersion.for3Use2_13),
     "org.scalatest"     %% "scalatest"            % scalaTestV % Test,
     "com.github.jwt-scala"     %% "jwt-core"             % "8.0.2"
   )
