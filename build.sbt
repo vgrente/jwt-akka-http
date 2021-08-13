@@ -31,7 +31,7 @@ libraryDependencies ++= {
     ("com.typesafe.akka" %% "akka-stream-testkit"  % akkaV % Test).cross(CrossVersion.for3Use2_13),
     ("com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpV).cross(CrossVersion.for3Use2_13),
     "org.scalatest"     %% "scalatest"            % scalaTestV % Test,
-    "com.github.jwt-scala"     %% "jwt-core"             % "8.0.2"
+    "com.github.jwt-scala"     %% "jwt-core"             % "8.0.3"
   )
 }
 
