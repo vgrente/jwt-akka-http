@@ -1,6 +1,6 @@
 name         := "jwt-akka-http"
 organization := "com.emarsys"
-crossScalaVersions := List("3.0.2", "2.13.6", "2.12.14")
+crossScalaVersions := List("3.0.2", "2.13.6", "2.12.15")
 
 scalacOptions ++= Seq(
   "-deprecation",
